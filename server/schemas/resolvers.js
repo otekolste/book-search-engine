@@ -17,8 +17,16 @@ const resolvers = {
     addUser: async (parent, args) => {
       return null;
     },
-    saveBook: async (parent, args) => {
-      return null;
+    saveBook: async (parent, { input }, context) => {
+      console.log(input);
+      if (context.user) {
+        return User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $addToSet: { savedBooks: input } },
+          { new: true }
+        );
+      }
+      throw AuthenticationError;
     },
     removeBook: async (parent, { bookId }, context) => {
       if (context.user) {
