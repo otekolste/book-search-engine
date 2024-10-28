@@ -7,16 +7,18 @@ import { LOGIN_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: "", password: "" });
-  const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
-  const [loginUser, { error, data }] = useMutation(LOGIN_USER);
+  const [userFormData, setUserFormData] = useState({ email: "", password: "" }); // Create state for form data
+  const [validated] = useState(false); // Create state to check if user is validated
+  const [showAlert, setShowAlert] = useState(false); // Create state for the alert on the form
+  const [loginUser, { error, data }] = useMutation(LOGIN_USER); // useMutation hook to use LOGIN_USER mutation
 
+  // Function that destructures form input and updates the state accordingly
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
+  // Function that attempts to log user in
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
@@ -29,16 +31,17 @@ const LoginForm = () => {
 
     try {
       const { data } = await loginUser({
+        // Attempts to log in user with form data
         variables: { ...userFormData },
       });
-      console.log(data);
-      Auth.login(data.login.token);
+      Auth.login(data.login.token); // authorizes the user from the generated token
     } catch (err) {
       console.error(err);
-      setShowAlert(true);
+      setShowAlert(true); // Show an alert on the form so user knows an error occurred
     }
 
     setUserFormData({
+      // Clear the form
       username: "",
       email: "",
       password: "",

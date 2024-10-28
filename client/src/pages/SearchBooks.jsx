@@ -14,7 +14,7 @@ const SearchBooks = () => {
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
   const [searchInput, setSearchInput] = useState("");
-
+  // useMutation hook to allow us to use SAVE_BOOK mutation
   const [saveBook, { error }] = useMutation(SAVE_BOOK);
 
   // create state to hold saved bookId values
@@ -31,19 +31,21 @@ const SearchBooks = () => {
     event.preventDefault();
 
     if (!searchInput) {
+      // If the search box is empty, return false
       return false;
     }
 
     try {
-      const response = await searchGoogleBooks(searchInput);
+      const response = await searchGoogleBooks(searchInput); // Call to Google Books API
 
       if (!response.ok) {
         throw new Error("something went wrong!");
       }
 
-      const { items } = await response.json();
+      const { items } = await response.json(); // Format in JSON
 
       const bookData = items.map((book) => ({
+        // Map the JSON data into an array of book objects, putting all the values into proper fields
         bookId: book.id,
         authors: book.volumeInfo.authors || ["No author to display"],
         title: book.volumeInfo.title,
@@ -51,8 +53,8 @@ const SearchBooks = () => {
         image: book.volumeInfo.imageLinks?.thumbnail || "",
       }));
 
-      setSearchedBooks(bookData);
-      setSearchInput("");
+      setSearchedBooks(bookData); // Populate the page
+      setSearchInput(""); // Clear the search bar
     } catch (err) {
       console.error(err);
     }
@@ -62,17 +64,14 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
-
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-
     if (!token) {
       return false;
     }
-
     try {
-      console.log(bookToSave);
       const data = await saveBook({
+        // Save book
         variables: {
           input: bookToSave,
         },

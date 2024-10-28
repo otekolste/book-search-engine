@@ -10,14 +10,14 @@ import Auth from "../utils/auth";
 import { removeBookId } from "../utils/localStorage";
 
 const SavedBooks = () => {
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
+  // import REMOVE_BOOK mutation and set to refetch queries so the page updates
   const [removeBook, { error }] = useMutation(REMOVE_BOOK, {
     refetchQueries: [GET_ME, "me"],
   });
-  const { loading, data } = useQuery(GET_ME);
+  const { loading, data } = useQuery(GET_ME); // Query saved books
 
   const userData = data?.me || {};
-
+  // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
     try {
       const { data } = removeBook({

@@ -16,15 +16,17 @@ const SignupForm = () => {
   const [validated] = useState(false);
   // set state for alert
   const [showAlert, setShowAlert] = useState(false);
-
+  // use useMutation hook so we can use ADD_USER mutation
   const [addUser, { error, data }] = useMutation(ADD_USER);
 
   const handleInputChange = (event) => {
+    // Function to destructure form input and update state accordingly
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
   };
 
   const handleFormSubmit = async (event) => {
+    // Function that attempts to sign user up when submitted
     event.preventDefault();
 
     // check if form has everything (as per react-bootstrap docs)
@@ -35,16 +37,16 @@ const SignupForm = () => {
     }
 
     try {
-      console.log(userFormData);
-      const { data } = await addUser({ variables: { ...userFormData } });
-      console.log(data);
-      Auth.login(data.addUser.token);
+      const { data } = await addUser({ variables: { ...userFormData } }); // Attempts to sign user up with form input data
+      Auth.login(data.addUser.token); // Authorizes user via auth middleware given the generated token
     } catch (err) {
+      // Catch error
       console.error(JSON.stringify(err, null, 2));
       setShowAlert(true);
     }
 
     setUserFormData({
+      // Clear form data
       username: "",
       email: "",
       password: "",
