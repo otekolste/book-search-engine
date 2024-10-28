@@ -19,9 +19,15 @@ Check it out [here!](https://book-search-engine-6olq.onrender.com/)
 
 Start by clicking the "Login/Signup" button in the upper right-hand corner. You can create an account with an email address, username, and password. Once you've created an account, you'll be automatically signed in. You can logout at any time by clicking the "Logout" button in the upper right-hand corner.
 
+![image](https://github.com/user-attachments/assets/f55ff5c3-315a-41f6-980b-74fe86795163)
+
 The search engine is simple to use: simply type a title into the search bar and search! The page will be populated with books, the data for which comes from the Google Books API. If you'd like to save a book, click the "Save this book!" button under the book in question.
 
+![image](https://github.com/user-attachments/assets/a5458a83-2924-44b4-9945-e689d4dc37d3)
+
 To view your saved books, check out the "See Your Books" button in the upper right corner. If you've saved any books, they will appear. You can remove books by clicking "Delete this book!" under each saved book.
+
+![image](https://github.com/user-attachments/assets/11023a00-d942-475d-9a4f-814b5772275c)
 
 ## Credits
 
